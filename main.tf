@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.0.11"
+  required_version = ">= 1.5.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -44,18 +44,6 @@ data "aws_ami" "amazon_linux_2023" {
   }
 }
 
-
-ephemeral "vault_kv_secret_v2" "app_db_credentials" {
-  mount = "secret"
-  name  = "projet1/app/database"
-}
-
-resource "null_resource" "ephemeral_secret" {
-  provisioner "local-exec" {
-    command = "echo ${ephemeral.vault_kv_secret_v2.app_db_credentials.data["password"]}"
-  }
-
-}
 
 # Appel de notre module local 'instance_web'
 module "serveur_web_1" {
