@@ -6,7 +6,7 @@ terraform {
       version = "6.11.0"
     }
     vault = {
-      source = "hashicorp/vault"
+      source  = "hashicorp/vault"
       version = "5.2.1"
     }
   }
@@ -52,14 +52,14 @@ ephemeral "vault_kv_secret_v2" "app_db_credentials" {
 
 resource "null_resource" "ephemeral_secret" {
   provisioner "local-exec" {
-    command = "echo ${ ephemeral.vault_kv_secret_v2.app_db_credentials.data["password"] }"
+    command = "echo ${ephemeral.vault_kv_secret_v2.app_db_credentials.data["password"]}"
   }
-  
+
 }
 
 # Appel de notre module local 'instance_web'
 module "serveur_web_1" {
-  source = "./modules/instance_web" # Chemin vers notre module
+  source          = "./modules/instance_web" # Chemin vers notre module
   ami_id          = data.aws_ami.amazon_linux_2023.id
   instance_type   = local.current_instance_config.instance_type # Utilise la variable définie dans le variables.tf racine
   project_name    = var.project_name
@@ -73,7 +73,7 @@ module "vpc" {
   # Consultez le Terraform Registry pour la dernière version stable et compatible (ex: ~> 5.0)
   version = "~> 5.5.0" # IMPORTANT: Spécifiez et vérifiez la version !
 
-  name = "${var.project_name}-VPC-${ terraform.workspace }"
+  name = "${var.project_name}-VPC-${terraform.workspace}"
   cidr = var.vpc_cidr_block # Utilise la variable définie dans variables.tf racine
 
   azs             = ["${var.aws_region}a", "${var.aws_region}b", "${var.aws_region}c"] # Exemple pour 3 AZs
@@ -81,7 +81,7 @@ module "vpc" {
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]                # Exemple de CIDRs pour sous-réseaux publics
 
   enable_nat_gateway = terraform.workspace == "prod" ? true : false # Crée une NAT Gateway pour les sous-réseaux privés (peut engendrer des coûts)
-  single_nat_gateway = true # Utilise une seule NAT Gateway pour toutes les AZs (réduit les coûts)
+  single_nat_gateway = true                                         # Utilise une seule NAT Gateway pour toutes les AZs (réduit les coûts)
 
   enable_dns_hostnames = true
   enable_dns_support   = true
