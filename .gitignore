@@ -1,0 +1,39 @@
+# Fichier: .gitignore
+
+# Répertoires locaux de Terraform et OpenTofu
+# Contiennent les plugins des fournisseurs et les modules téléchargés,
+# qui sont spécifiques à votre machine et seront téléchargés par 'init'.
+.terraform/
+.tofu/
+
+# Fichiers d'état locaux et sauvegardes
+# Même si nous utilisons un backend distant, il est bon de les ignorer
+# au cas où un état local serait généré accidentellement.
+*.tfstate
+*.tfstate.*
+
+# Fichiers de plan Terraform/OpenTofu sauvegardés localement
+# Ces fichiers peuvent contenir des informations sensibles.
+*.tfplan
+
+# Fichiers .tfvars contenant des secrets
+# Adoptez une convention de nommage pour ces fichiers, par exemple :
+# secrets.tfvars
+# *.secret.tfvars
+# *.private.tfvars
+
+# Logs de crash
+crash.log
+crash.*.log
+
+# Fichiers de surcharge locaux (utilisés pour des modifications temporaires
+# spécifiques à un environnement local, ne doivent pas être partagés).
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Exclure les fichiers spécifiques à l'IDE ou au système d'exploitation
+.DS_Store
+.idea/
+*.swp
