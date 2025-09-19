@@ -11,7 +11,7 @@ terraform {
 
 provider "aws" {
   # Configuration options
-  region  = var.aws_region
+  region = var.aws_region
 }
 
 data "aws_ami" "amazon_linux_2023" {
