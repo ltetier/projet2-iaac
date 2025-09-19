@@ -188,7 +188,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ### 📝 Résultat du `terraform plan` pour le workspace `${WORKSPACE}`
+            ### 📝 Résultat du `terraform plan` pour le workspace ${WORKSPACE}
 
             ${{ steps.plan.outputs.PLAN_DETAILS }}
 
@@ -202,7 +202,7 @@ jobs:
         with:
           name: terraform-plan-${{ steps.set_workspace.outputs.tf_workspace }}
           path: |
-            tfplan-${{ steps.set_workspace.outputs.tf_workspace }}.txt
-            tfplan-${{ steps.set_workspace.outputs.tf_workspace }}.binary
+            tfplan-${WORKSPACE}.txt
+            tfplan-${WORKSPACE}.binary
           retention-days: 7 # conserve l’artefact pendant 7 jours
           if-no-files-found: ignore
