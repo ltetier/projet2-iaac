@@ -137,13 +137,13 @@ jobs:
           echo "--- Running Terraform Plan ---"
           # Le code ci-dessous pourra être largement simplifié une fois que la PR #36476 de Terraform sera intégrée.
           # cf. https://github.com/hashicorp/terraform/issues/36476
-          terraform plan -input=false -no-color -detailed-exitcode > plan.txt
+          terraform plan -input=false -no-color -out=$PLAN_BINARY_FILENAME -detailed-exitcode > $PLAN_TEXT_FILENAME
           PLAN_COMMAND_RAW_EXIT_CODE=$? # Capture du code de sortie brut de terraform plan
           echo "Terraform Plan command raw exit code: $PLAN_COMMAND_RAW_EXIT_CODE"
 
-          echo "--- Content of plan.txt ---"
-          cat plan.txt
-          echo "--- End of plan.txt ---"
+          echo "--- Content of $PLAN_TEXT_FILENAME ---"
+          cat $PLAN_TEXT_FILENAME
+          echo "--- End of $PLAN_TEXT_FILENAME ---"
 
           FINAL_PLAN_DETAILS="Vérification manuelle du plan requise (analyse du contenu ou code de sortie non concluant)." # Valeur par défaut
 
