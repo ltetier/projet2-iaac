@@ -5,23 +5,14 @@ terraform {
       source  = "hashicorp/aws"
       version = "6.11.0"
     }
-    vault = {
-      source  = "hashicorp/vault"
-      version = "5.2.1"
-    }
   }
 }
+
 
 provider "aws" {
   # Configuration options
   region  = var.aws_region
-  profile = "project1-sso"
 }
-
-provider "vault" {
-  # Configuration options
-}
-
 
 data "aws_ami" "amazon_linux_2023" {
   most_recent = true
