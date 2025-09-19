@@ -115,7 +115,7 @@ jobs:
             WORKSPACE=dev
           fi
           echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
-          echo "tf_workspace=$WORKSPACE" >> $GITHUB_ENV
+          echo "tf_workspace=$WORKSPACE" >> $GITHUB_OUTPUT
 
       - name: Terraform Init (for plan)
         id: init_plan
