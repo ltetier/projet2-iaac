@@ -87,7 +87,7 @@ jobs:
     if: github.event_name == 'pull_request'
     outputs:
       plan_binary_filename: ${{ steps.plan.outputs.PLAN_BINARY_FILENAME }}
-      tf_workspace: ${{ steps.set_workspace.outputs.tf_workspace}}
+      tf_workspace: ${{ steps.set_workspace.outputs.tf_workspace }}
 
     steps:
       - name: Checkout code
@@ -188,7 +188,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ### 📝 Résultat du `terraform plan` pour le workspace `${{ steps.set_workspace.outputs.tf_workspace }}`
+            ### 📝 Résultat du `terraform plan` pour le workspace `${WORKSPACE}`
 
             ${{ steps.plan.outputs.PLAN_DETAILS }}
 
