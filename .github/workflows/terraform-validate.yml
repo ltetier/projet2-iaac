@@ -151,19 +151,19 @@ jobs:
             # Erreur critique de 'terraform plan' (ex: erreur de syntaxe)
             FINAL_PLAN_DETAILS="Erreur critique lors de la génération du plan (Terraform a retourné le code: $PLAN_COMMAND_RAW_EXIT_CODE)"
             echo "Condition: La commande Terraform Plan a directement signalé une erreur."
-          elif grep -q -E "(No changes\. Infrastructure is up-to-date\.|No changes\. Your infrastructure matches the configuration\.|Plan: 0 to add, 0 to change, 0 to destroy\.)" plan.txt; then
-            # Message explicite "No changes" ou résumé à zéro trouvé dans plan.txt
+          elif grep -q -E "(No changes\. Infrastructure is up-to-date\.|No changes\. Your infrastructure matches the configuration\.|Plan: 0 to add, 0 to change, 0 to destroy\.)" $PLAN_TEXT_FILENAME; then
+            # Message explicite "No changes" ou résumé à zéro trouvé dans $PLAN_TEXT_FILENAME
             FINAL_PLAN_DETAILS="aucun changement détecté (confirmé par l'analyse du contenu du plan)"
-            echo "Condition: Message explicite d'absence de changement trouvé dans plan.txt."
+            echo "Condition: Message explicite d'absence de changement trouvé dans $PLAN_TEXT_FILENAME."
           # Recherche d'une ligne de résumé indiquant des changements (au moins 1 ajout, modification ou suppression)
-          elif PLAN_SUMMARY_LINE=$(grep -E "^Plan: ([0-9]+ to add, [0-9]+ to change, [0-9]+ to destroy\.)$" plan.txt) && \
+          elif PLAN_SUMMARY_LINE=$(grep -E "^Plan: ([0-9]+ to add, [0-9]+ to change, [0-9]+ to destroy\.)$" $PLAN_TEXT_FILENAME) && \
               (echo "$PLAN_SUMMARY_LINE" | grep -q -E "([1-9][0-9]* to add|[1-9][0-9]* to change|[1-9][0-9]* to destroy)") ; then
             # La ligne de résumé a été trouvée ET elle contient au moins un chiffre > 0 pour add/change/destroy
             ADD=$(echo "$PLAN_SUMMARY_LINE" | sed -n 's/^Plan: \([0-9]*\) to add,.*/\1/p')
             CHANGE=$(echo "$PLAN_SUMMARY_LINE" | sed -n 's/^Plan: [0-9]* to add, \([0-9]*\) to change,.*/\1/p')
             DESTROY=$(echo "$PLAN_SUMMARY_LINE" | sed -n 's/^Plan:.*, \([0-9]*\) to destroy.$/\1/p')
             FINAL_PLAN_DETAILS="changements détectés (analyse du résumé: $ADD à ajouter, $CHANGE à modifier, $DESTROY à détruire). Voir l'artéfact."
-            echo "Condition: Changements détectés à partir de la ligne de résumé de plan.txt."
+            echo "Condition: Changements détectés à partir de la ligne de résumé de $PLAN_TEXT_FILENAME."
           else
             # Cas ambigu : pas de message clair "No changes", pas de résumé standard avec des chiffres > 0,
             # ou format de plan inattendu. Le code de sortie brut peut donner une indication.
