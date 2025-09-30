@@ -8,7 +8,7 @@ terraform {
   }
 
   cloud {
-    organisation = "laurentt-org"
+    organization = "laurentt-org"
   }
 }
 
