@@ -15,3 +15,13 @@ variable "vpc_cidr_block" {
   type        = string
   default     = "10.0.0.0/16"
 }
+
+variable "TFC_AWS_PROVIDER_AUTH" {
+  description = "Activer connexion avec openID"
+  type        = bool
+}
+
+variable "TFC_AWS_RUN_ROLE_ARN" {
+  description = "role pour openID pour HCP terraform"
+  type        = string
+}
