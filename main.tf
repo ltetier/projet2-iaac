@@ -6,6 +6,10 @@ terraform {
       version = "6.11.0"
     }
   }
+
+  cloud {
+    organisation = "laurentt-org"
+  }
 }
 
 
